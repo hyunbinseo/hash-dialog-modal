@@ -1,0 +1,11 @@
+{
+	"scripts": {
+		"lint": "prettier --plugin-search-dir . --check .",
+		"format": "prettier --plugin-search-dir . --write ."
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"prettier": "^2.8.4",
+		"typescript": "^4.9.5"
+	}
+}
