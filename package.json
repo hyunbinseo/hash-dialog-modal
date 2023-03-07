@@ -1,6 +1,6 @@
 {
 	"name": "hash-dialog-modal",
-	"version": "0.0.0",
+	"version": "1.0.1",
 	"description": "Open and close <dialog> modals based on the URL hash value.",
 	"license": "MIT",
 	"devDependencies": {
