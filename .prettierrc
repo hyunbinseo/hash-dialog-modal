@@ -6,9 +6,11 @@
 	"overrides": [
 		{
 			"files": "*.md",
-			"options": {
-				"useTabs": false
-			}
+			"options": { "useTabs": false }
+		},
+		{
+			"files": "*.svelte",
+			"options": { "parser": "svelte" }
 		}
 	]
 }

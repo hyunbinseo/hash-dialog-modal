@@ -27,7 +27,9 @@ export const controlDialogWithUrlHash = (
 		if (!hash || !document.querySelector(`[href='${hash}']`))
 			return closeDialog();
 		if (overflow === 'auto') document.body.style.overflow = 'hidden';
-		dialog.showModal();
+		// Uncaught DOMException: Failed to execute 'showModal' on 'HTMLDialogElement':
+		// The element already has an 'open' attribute, and therefore cannot be opened modally.
+		if (!dialog.open) dialog.showModal();
 	};
 
 	handleHash();

@@ -57,18 +57,20 @@ Directly in the browser using [jsDelivr], etc.
   // Select the dialog element.
   const dialog = document.querySelector('dialog');
 
-  // Pass the dialog element to the function.
+  const updateDialogContent = () =>
+    (dialog.textContent = `Current hash is '${window.location.hash}'`);
+
+  updateDialogContent(); // Update the dialog content on initial load.
+
+  // Dynamically update the dialog content based on the URL hash change.
+  window.addEventListener('hashchange', updateDialogContent);
+
+  // Pass the dialog element to the imported function.
   const { removeEventListeners } = controlDialogWithUrlHash(dialog, 'auto');
 
-  // Dynamically update the modal content based on the URL hash.
-  window.addEventListener('hashchange', () => {
-    const { hash } = window.location;
-    const content = `Current hash is ${hash}`;
-    dialog.textContent = content;
-  });
-  
   // Remove all event listeners when needed.
-  // removeEventListeners();
+  // - window.removeEventListener('hashchange', updateDialogContent);
+  // - removeEventListeners();
 </script>
 ```
 
@@ -79,23 +81,31 @@ In Node.js by installing from [npm]. Identical example written for [SvelteKit].
 
 ```svelte
 <script lang="ts">
-  import { page } from '$app/stores';
-  import { onMount } from 'svelte';
   import { controlDialogWithUrlHash } from 'hash-dialog-modal';
+  import { onMount } from 'svelte';
 
   let dialogElement: HTMLDialogElement;
+  let dialogContent: string;
+
+  const updateDialogContent = () =>
+    (dialogContent = `Current hash is '${window.location.hash}'`);
 
   onMount(() => {
-    const { removeEventListeners } = controlDialogWithUrlHash(dialogElement, 'auto');
+    updateDialogContent();
+    const { removeEventListeners } = controlDialogWithUrlHash(
+      dialogElement,
+      'auto'
+    );
     return removeEventListeners;
   });
 </script>
 
+<svelte:window on:hashchange={updateDialogContent} />
+
 <a href="#1">#1</a>
 <a href="#2">#2</a>
 
-<dialog bind:this={dialogElement}>Current hash is {$page.url.hash}</dialog>
-
+<dialog bind:this={dialogElement}>{dialogContent}</dialog>
 ```
 
 ## Options

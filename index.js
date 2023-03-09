@@ -23,7 +23,8 @@ export const controlDialogWithUrlHash = (dialog, overflow) => {
             return closeDialog();
         if (overflow === 'auto')
             document.body.style.overflow = 'hidden';
-        dialog.showModal();
+        if (!dialog.open)
+            dialog.showModal();
     };
     handleHash();
     window.addEventListener('hashchange', handleHash);
