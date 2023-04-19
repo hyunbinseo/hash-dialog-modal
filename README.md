@@ -41,7 +41,7 @@ Assume a webpage with the following anchor elements.
 
 ## Usage
 
-Directly in the browser using [jsDelivr], etc.
+Import from [jsDelivr] - Vanilla JavaScript example
 
 [jsdelivr]: https://www.jsdelivr.com/package/npm/hash-dialog-modal
 
@@ -74,7 +74,7 @@ Directly in the browser using [jsDelivr], etc.
 </script>
 ```
 
-In Node.js by installing from [npm]. Identical example written for [SvelteKit].
+Install from [npm] - Node.js and [SvelteKit] example
 
 [npm]: https://www.npmjs.com/package/hash-dialog-modal
 [SvelteKit]: https://kit.svelte.dev/
@@ -110,11 +110,31 @@ In Node.js by installing from [npm]. Identical example written for [SvelteKit].
 
 ## Options
 
-```ts
+```typescript
 export declare const controlDialogWithUrlHash: (
   dialog: HTMLDialogElement,
-  overflow: 'auto' | 'manual' // 'auto' automatically sets the overflow style of the <body>
+  overflow: 'auto' | 'manual', // sets the overflow style of the <body>
+  options?: Partial<{
+    onHashRemoval: () => void; // runs on dialog close and hash removal
+  }>
 ) => {
-  removeEventListeners: () => void; // a function that removes all event listeners
+  removeEventListeners: () => void; // removes all event listeners
 };
+```
+
+## Advanced
+
+What `overflow` auto is recommended.
+
+```javascript
+// Remove scroll from the <body> when the <dialog> is opened as a modal.
+if (overflow === 'auto') document.body.style.overflow = 'hidden'; // handleHash
+if (overflow === 'auto') document.body.style.overflow = 'visible'; // closeDialog
+```
+
+Why `onHashRemoval` callback should be provided.
+
+```javascript
+window.history.pushState(null, '', ' '); // Does not trigger on:hashchange event.
+options.onHashRemoval?.(); // Therefore, the callback should be manually provided.
 ```

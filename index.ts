@@ -1,6 +1,9 @@
 export const controlDialogWithUrlHash = (
 	dialog: HTMLDialogElement,
-	overflow: 'auto' | 'manual'
+	overflow: 'auto' | 'manual',
+	options: Partial<{
+		onHashRemoval: () => void;
+	}> = {}
 ): { removeEventListeners: () => void } => {
 	if (typeof window === 'undefined')
 		throw new ReferenceError('window is not defined');
@@ -13,7 +16,8 @@ export const controlDialogWithUrlHash = (
 
 	const closeDialog = () => {
 		const { hash } = window.location;
-		window.history.pushState(null, '', ' '); // Does not trigger on:hashchange
+		window.history.pushState(null, '', ' ');
+		options.onHashRemoval?.();
 		if (overflow === 'auto') document.body.style.overflow = 'visible';
 		dialog.close();
 		if (hash) {
