@@ -80,32 +80,22 @@ Install from [npm] - Node.js and [SvelteKit] example
 [SvelteKit]: https://kit.svelte.dev/
 
 ```svelte
-<script lang="ts">
+<script>
+  import { page } from '$app/stores';
   import { controlDialogWithUrlHash } from 'hash-dialog-modal';
-  import { onMount } from 'svelte';
 
-  let dialogElement: HTMLDialogElement;
-  let dialogContent: string;
-
-  const updateDialogContent = () =>
-    (dialogContent = `Current hash is '${window.location.hash}'`);
-
-  onMount(() => {
-    updateDialogContent();
-    const { removeEventListeners } = controlDialogWithUrlHash(
-      dialogElement,
-      'auto'
-    );
-    return removeEventListeners;
-  });
+  /** @type {import('svelte/action').Action<HTMLDialogElement>} */
+  const controlWithHash = (dialog) => {
+    const { removeEventListeners } = controlDialogWithUrlHash(dialog, 'auto');
+    return { destroy: removeEventListeners };
+  };
 </script>
-
-<svelte:window on:hashchange={updateDialogContent} />
 
 <a href="#1">#1</a>
 <a href="#2">#2</a>
 
-<dialog bind:this={dialogElement}>{dialogContent}</dialog>
+<!-- Requires @sveltejs/kit@1.22.0+ -->
+<dialog use:controlWithHash>Current hash is {$page.url.hash}</dialog>
 ```
 
 ## Options
