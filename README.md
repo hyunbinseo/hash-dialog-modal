@@ -3,7 +3,7 @@
 Open and close [`<dialog>`] modals based on the URL hash value. A vanilla JavaScript library for all browsers and frameworks. [Demo]
 
 [`<dialog>`]: https://developer.mozilla.org/docs/Web/HTML/Element/dialog
-[Demo]: https://html.hyunbin.page/hash-dialog-modal
+[Demo]: https://demo.hyunbin.page/hash-dialog-modal
 
 https://user-images.githubusercontent.com/47051820/223364228-0893dfe1-ef83-4cda-833d-bdace9bb3069.mp4
 
